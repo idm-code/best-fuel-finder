@@ -19,11 +19,16 @@ def main():
 
     datos = []
     for i in api:
-        datos.append([i['Provincia'], i['Localidad'], i['Dirección'], i['Precio Gasolina 95 E5'], i['Precio Gasoleo A']])
-    df = pd.DataFrame(datos, columns=['Provincia', 'Localidad' ,'Dirección', 'Precio Gasolina 95 E5', 'Precio Gasoleo A'])
+        datos.append([i['Provincia'], i['Localidad'], i['Dirección'], i['Precio Gasolina 95 E5'], i['Precio Gasoleo A'], i['Rótulo']])
+    df = pd.DataFrame(datos, columns=['Provincia', 'Localidad' ,'Dirección', 'Precio Gasolina 95 E5', 'Precio Gasoleo A', 'Rótulo'])
 
-    st.title("Precios de los carburantes en España")
-    st.write(df)
+    st.markdown("<h1 style='text-align: center;'>Precios de los carburantes en España</h1>", unsafe_allow_html=True)
+
+    provincia = st.selectbox("Seleccionar provincia:", options=["Todas"] + df['Provincia'].unique().tolist())
+    if provincia != "Todas":
+        df = df[df['Provincia'] == provincia]
+
+    st.dataframe(df, use_container_width=True)
 
 
 if __name__ == "__main__":
