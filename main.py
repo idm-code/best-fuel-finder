@@ -9,7 +9,10 @@ st.set_page_config(page_title="Best Fuel Finder", page_icon="⛽", layout="wide"
 def get_gas_prices():
     url = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
     try:
-        response = requests.get(url, timeout=10)
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         data = response.json()
         estaciones = data.get('ListaEESSPrecio', [])
